@@ -22,20 +22,24 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundLayer;
 
     private Rigidbody2D rb;
+    private Animator animator;
 
     private Vector2 currentVelocity;
     private float moveInput_cache = 1;
+    private float moveInput = 0;
+    private Vector3 position_cache;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         extraJumps = extraJumpsValue;
     }
 
     private void FixedUpdate()
     {
         // Handle horizontal movement
-        float moveInput = Input.GetAxisRaw("Horizontal");
+        moveInput = Input.GetAxisRaw("Horizontal");
         if (moveInput != moveInput_cache && moveInput != 0)
             moveInput_cache = moveInput;
 
@@ -72,5 +76,15 @@ public class PlayerMovement : MonoBehaviour
 
         // Flip the player
         transform.localScale = new Vector3(moveInput_cache, 1, 1);
+
+        // Animation
+        if(moveInput != 0 && isGrounded)
+        {
+            animator.SetBool("IsMoving", true);
+        }
+        else
+        {
+            animator.SetBool("IsMoving", false);
+        }
     }
 }
