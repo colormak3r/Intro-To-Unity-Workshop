@@ -78,7 +78,9 @@ public class PlayerMovement : MonoBehaviour
         transform.localScale = new Vector3(moveInput_cache, 1, 1);
 
         // Animation
-        if(moveInput != 0 && isGrounded)
+        if(animator == null) return;
+
+        if(moveInput != 0 && isGrounded) // Play moving animation when the player is moving around on the ground
         {
             animator.SetBool("IsMoving", true);
         }
